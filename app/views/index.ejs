@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+</head>
+<body>
+    <h1>Cursos</h1>
+    <ul>
+        <% for(var i = 0; i < cursos.length; i++) { %>
+            <li><%= cursos[i].nome %> - <%= cursos[i].categoria %></li>
+        <% } %>
+    </ul>
+
+    <form onsubmit="createCourse(event)">
+        <input type="text" id="nome" placeholder="Nome" autofocus>
+        <input type="text" id="categoria" placeholder="Categoria" autofocus>
+        <input type="submit" value="Criar">
+    </form>
+
+    <script>
+        function createCourse(event){
+            event.preventDefault();
+            const nome = document.querySelector('#nome').value;
+            const categoria = document.querySelector('#categoria').value;
+
+            fetch('/', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({nome, categoria})
+            })
+            .then(res => res.json())
+            .then(res => location.reload())
+            .catch(err => console.log(err));
+        }
+    </script>
+
+</body>
+</html>
